@@ -1,0 +1,32 @@
+BIT ERROR:
+    - introduce bit erros in a non invasive way
+    - we want to send packet if changed 
+
+
+PACKET LOSS(SNW):
+
+
+    TIME IDEA:
+
+    Wait Time = RTT + Computation Time
+
+    - This is difficult to make constant because some machines may out perform others leading to 
+        - wasted time if wait time is configuired on slower machine
+    - This is also difficult because there is a chance that the machine it is configured on is slower 
+        - in which case the blocks would be sent over and over again
+
+    - This leads me to believe a timer approach is not a solid choice
+
+    - Instead we can induce packet loss by just sending NAK for current packet
+    - this will raise a flag in our prexisting system that checks the validity of the packet
+    - thus doing so in both SNW and GBN will cause the packet and block to be resent respectively
+    - No matter machine this seems to be best implementation
+
+
+def doesPacketLossOccur() -> bool: return random.random() < .02
+
+if doesPacketLossOccur():
+    print(f"Packet Loss Occured!\n",file=file)
+    UDPServerSocket.sendto('NAK'.encode(), client_address)
+    continue
+
